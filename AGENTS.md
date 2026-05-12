@@ -104,5 +104,7 @@ First `/` compile downloads Anton/Inter/JetBrains from Google Fonts. If you see 
 - [Cursor](src/components/Cursor.tsx) (8px dot, 32px on `data-cursor="hover"`, "WATCH" on `data-cursor="watch"`)
 - [Nav](src/components/Nav.tsx) (transparent → blurred after 100px, magnetic links)
 - [Hero](src/components/sections/Hero.tsx) (tilt, letter stagger, scroll-out, magnetic CTAs, scroll indicator)
+- [SocialProof](src/components/sections/SocialProof.tsx) (GSAP count-up via `useGSAP`, suffix fade-in, ScrollTrigger `start: "top 70%" once: true`, Meta recognition line)
+- [RecognitionMarquee](src/components/sections/RecognitionMarquee.tsx) (seamless x-translate marquee via `useAnimationFrame` driving a `useMotionValue`; speed via `durationRef` ref — 40s default, 15s on section hover. Don't use state-driven `transition.duration` for marquee speed — it snaps to start.)
 
 Sections still to build: About, Work, Clan, Footer.
