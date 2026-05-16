@@ -9,6 +9,7 @@ import {
 } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { ChevronDown } from "lucide-react";
 import MagneticCTA from "@/components/MagneticCTA";
 
@@ -49,15 +50,15 @@ export default function Hero() {
     return () => window.removeEventListener("mousemove", onMove);
   }, [mx, my]);
 
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      return;
-    }
-    gsap.registerPlugin(ScrollTrigger);
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
+      if (
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        return;
+      }
+      gsap.registerPlugin(ScrollTrigger);
       gsap.to(titleRef.current, {
         scale: 0.8,
         opacity: 0,
@@ -69,9 +70,9 @@ export default function Hero() {
           scrub: true,
         },
       });
-    }, heroRef);
-    return () => ctx.revert();
-  }, []);
+    },
+    { scope: heroRef }
+  );
 
   return (
     <section

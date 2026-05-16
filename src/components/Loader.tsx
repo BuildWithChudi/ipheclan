@@ -15,11 +15,17 @@ export default function Loader() {
   const [phase, setPhase] = useState<Phase>("initial");
 
   useEffect(() => {
-    if (sessionStorage.getItem("iphe-loaded")) {
+    let alreadyLoaded = false;
+    try {
+      alreadyLoaded = sessionStorage.getItem("iphe-loaded") !== null;
+      if (!alreadyLoaded) sessionStorage.setItem("iphe-loaded", "1");
+    } catch {
+      // sessionStorage can throw in private mode or with strict cookie policies
+    }
+    if (alreadyLoaded) {
       setPhase("done");
       return;
     }
-    sessionStorage.setItem("iphe-loaded", "1");
     setPhase("typing");
 
     const typeMs = LETTERS.length * TYPE_DELAY * 1000;
