@@ -80,7 +80,7 @@ export default function Hero() {
     >
       <div className="flex flex-col items-center px-6 text-center">
         <div style={{ perspective: 1000 }}>
-          <motion.div
+          <motion.h1
             ref={titleRef}
             aria-label={WORD}
             className="font-display leading-none tracking-tight text-fg"
@@ -107,7 +107,7 @@ export default function Hero() {
                 {letter}
               </motion.span>
             ))}
-          </motion.div>
+          </motion.h1>
         </div>
 
         <motion.p
