@@ -108,6 +108,9 @@ export const metadata: Metadata = {
     apple: { url: "/apple-touch-icon.png", sizes: "180x180" },
   },
   manifest: "/site.webmanifest",
+  verification: {
+    google: "N5jZVoxmpAM_0UAD7qTsNfTv4Lg3ELoVrw-kEAPIUbE",
+  },
   category: "entertainment",
 };
 

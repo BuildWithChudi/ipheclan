@@ -2,6 +2,7 @@
 module.exports = {
   siteUrl: "https://ipheclan.com",
   generateRobotsTxt: false,
+  generateIndexSitemap: false,
   sitemapSize: 5000,
   changefreq: "weekly",
   priority: 0.7,
