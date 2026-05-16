@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -19,7 +19,9 @@ const PARAGRAPHS = [
 
 export default function Intro() {
   const sectionRef = useRef<HTMLElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(textRef, { once: true, amount: 0.2 });
 
   useGSAP(
     () => {
@@ -78,11 +80,10 @@ export default function Intro() {
         </div>
 
         {/* Text column */}
-        <div className="flex flex-col">
+        <div ref={textRef} className="flex flex-col">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
+            animate={inView ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 0.6 }}
             className="font-mono text-xs uppercase tracking-widest text-muted"
           >
@@ -99,8 +100,7 @@ export default function Intro() {
                 <motion.span
                   className="inline-block"
                   initial={{ y: 30, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true, amount: 0.4 }}
+                  animate={inView ? { y: 0, opacity: 1 } : undefined}
                   transition={{
                     delay: i * 0.08,
                     duration: 0.7,
@@ -118,8 +118,7 @@ export default function Intro() {
               <motion.p
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
+                animate={inView ? { opacity: 1, y: 0 } : undefined}
                 transition={{
                   delay: 0.25 + i * 0.15,
                   duration: 0.7,
@@ -133,8 +132,7 @@ export default function Intro() {
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
+            animate={inView ? { opacity: 1, y: 0 } : undefined}
             transition={{ delay: 0.6, duration: 0.7 }}
             className="mt-10"
           >
