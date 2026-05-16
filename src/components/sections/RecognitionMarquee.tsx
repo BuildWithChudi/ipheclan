@@ -24,6 +24,8 @@ function MarqueeRow() {
   );
 }
 
+const COPIES = 4;
+
 export default function RecognitionMarquee() {
   const trackRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
@@ -32,11 +34,13 @@ export default function RecognitionMarquee() {
   useAnimationFrame((_, delta) => {
     const el = trackRef.current;
     if (!el) return;
-    const half = el.scrollWidth / 2;
-    if (half === 0) return;
-    const pxPerSecond = half / durationRef.current;
+    const firstRow = el.children[0] as HTMLElement | undefined;
+    if (!firstRow) return;
+    const rowWidth = firstRow.offsetWidth;
+    if (rowWidth === 0) return;
+    const pxPerSecond = rowWidth / durationRef.current;
     let next = x.get() - (pxPerSecond * delta) / 1000;
-    if (next <= -half) next += half;
+    if (next <= -rowWidth) next += rowWidth;
     x.set(next);
   });
 
@@ -56,8 +60,9 @@ export default function RecognitionMarquee() {
         style={{ x }}
         className="flex h-full w-max items-center will-change-transform"
       >
-        <MarqueeRow />
-        <MarqueeRow />
+        {Array.from({ length: COPIES }, (_, i) => (
+          <MarqueeRow key={i} />
+        ))}
       </motion.div>
     </section>
   );

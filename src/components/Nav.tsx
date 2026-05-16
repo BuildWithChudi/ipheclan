@@ -1,51 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import { clsx } from "clsx";
+import Magnetic from "@/components/Magnetic";
 
 const links = [
-  { label: "About", href: "#about" },
-  { label: "Work", href: "#work" },
-  { label: "Clan", href: "#clan" },
+  { label: "About", href: "/about" },
+  { label: "Work", href: "/work" },
+  { label: "Clan", href: "/clan" },
 ];
-
-function MagneticLink({ label, href }: { label: string; href: string }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 15 });
-  const sy = useSpring(y, { stiffness: 200, damping: 15 });
-
-  const handleMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    x.set((e.clientX - cx) * 0.35);
-    y.set((e.clientY - cy) * 0.35);
-  };
-
-  const handleLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <motion.a
-      ref={ref}
-      href={href}
-      data-cursor="hover"
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      style={{ x: sx, y: sy }}
-      className="font-sans text-xs uppercase tracking-wider text-fg/80 hover:text-fg transition-colors"
-    >
-      {label}
-    </motion.a>
-  );
-}
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -67,16 +31,24 @@ export default function Nav() {
       )}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-10">
-        <a
+        <Link
           href="/"
           data-cursor="hover"
           className="font-display text-4xl leading-none tracking-tight text-fg md:text-5xl"
         >
           IPHE
-        </a>
-        <div className="flex items-center gap-8">
+        </Link>
+        <div className="flex items-center gap-6 md:gap-8">
           {links.map((l) => (
-            <MagneticLink key={l.href} label={l.label} href={l.href} />
+            <Magnetic key={l.href} radius={70} strength={0.3}>
+              <Link
+                href={l.href}
+                data-cursor="hover"
+                className="font-sans text-xs uppercase tracking-wider text-fg/80 transition-colors hover:text-fg"
+              >
+                {l.label}
+              </Link>
+            </Magnetic>
           ))}
         </div>
       </nav>

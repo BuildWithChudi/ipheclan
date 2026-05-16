@@ -1,10 +1,16 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import dynamic from "next/dynamic";
 import SmoothScroll from "@/components/SmoothScroll";
-import Cursor from "@/components/Cursor";
 import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+import Loader from "@/components/Loader";
+import PageTransition from "@/components/PageTransition";
+import MotionProvider from "@/components/MotionProvider";
 import "./globals.css";
+
+const Cursor = dynamic(() => import("@/components/Cursor"), { ssr: false });
 
 const anton = Anton({
   subsets: ["latin"],
@@ -25,37 +31,128 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
-const siteTitle = "Iphe — Creator. Entertainer. Building the Iphe Clan.";
-const siteDescription =
-  "Iphe is a creator and entertainer building the Iphe Clan — a community of fans, collaborators, and friends. Watch, listen, and join the clan.";
 const siteUrl = "https://ipheclan.com";
+const defaultTitle = "Iphe — Creator. Entertainer. Building the Iphe Clan.";
+const description =
+  "UK-based content creator with 4M+ TikTok followers. Recognised by Meta as a Creator of Tomorrow. Entertainment, humour, and community.";
+const ogImage = {
+  url: "/og-image.jpg",
+  width: 1200,
+  height: 630,
+  alt: "Iphe — UK creator, entertainer, building the Iphe Clan.",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: siteTitle,
-  description: siteDescription,
+  title: {
+    default: defaultTitle,
+    template: "%s | Iphe",
+  },
+  description,
+  applicationName: "Iphe Clan",
+  authors: [{ name: "Iphe Afolabi" }],
+  creator: "Iphe Afolabi",
+  publisher: "Iphe Afolabi",
+  keywords: [
+    "Iphe",
+    "Iphe Afolabi",
+    "Iphe Clan",
+    "UK content creator",
+    "TikTok creator",
+    "Meta Creator of Tomorrow",
+    "Instagram creator",
+    "YouTube creator",
+    "Snapchat creator",
+    "British creator",
+    "entertainment",
+    "comedy",
+    "influencer marketing UK",
+    "brand partnerships",
+  ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: siteTitle,
-    description: siteDescription,
-    url: siteUrl,
-    siteName: "Iphe Clan",
     type: "website",
-    locale: "en_US",
+    url: siteUrl,
+    siteName: "Iphe",
+    title: defaultTitle,
+    description,
+    locale: "en_GB",
+    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: siteTitle,
-    description: siteDescription,
+    title: defaultTitle,
+    description,
+    images: [ogImage.url],
+    creator: "@iphe__a",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
   icons: {
     icon: "/favicon.ico",
   },
+  category: "entertainment",
 };
 
 export const viewport: Viewport = {
   themeColor: "#0A0A0A",
   width: "device-width",
   initialScale: 1,
+};
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Iphe Afolabi",
+  alternateName: "Iphe",
+  url: siteUrl,
+  image: `${siteUrl}/og-image.jpg`,
+  jobTitle: "Content Creator",
+  description:
+    "UK-based content creator and entertainer. Recognised by Meta as a Creator of Tomorrow. Building the Iphe Clan — a community of millions across TikTok, Instagram, YouTube, and Snapchat.",
+  nationality: "British",
+  knowsAbout: [
+    "Content creation",
+    "Short-form video",
+    "Entertainment",
+    "Brand partnerships",
+    "Community building",
+  ],
+  sameAs: [
+    "https://www.tiktok.com/@iphe._a",
+    "https://www.instagram.com/iphe._a",
+    "https://youtube.com/@iphe._a",
+    "https://snapchat.com/t/U89klCIj",
+    "https://www.facebook.com/share/1CZPkTog4v/",
+    "https://x.com/iphe__a",
+    "https://www.threads.com/@iphe._a",
+    "https://whatsapp.com/channel/0029VaiZ0ZDEgGfKjv85gf08",
+    "https://discord.gg/WDnXWpt6B",
+  ],
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Iphe",
+  url: siteUrl,
+  description,
+  inLanguage: "en-GB",
+  publisher: {
+    "@type": "Person",
+    name: "Iphe Afolabi",
+  },
 };
 
 export default function RootLayout({
@@ -69,12 +166,24 @@ export default function RootLayout({
       className={`${anton.variable} ${inter.variable} ${jetbrains.variable}`}
     >
       <body className="bg-bg text-fg font-sans antialiased">
-        <SmoothScroll>
-          <Cursor />
-          <Nav />
-          {children}
-        </SmoothScroll>
+        <MotionProvider>
+          <Loader />
+          <SmoothScroll>
+            <Cursor />
+            <Nav />
+            <PageTransition>{children}</PageTransition>
+            <Footer />
+          </SmoothScroll>
+        </MotionProvider>
         <Analytics />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
       </body>
     </html>
   );

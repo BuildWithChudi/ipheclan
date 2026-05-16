@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   motion,
   useMotionValue,
@@ -10,67 +10,9 @@ import {
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ChevronDown } from "lucide-react";
-import { clsx } from "clsx";
+import MagneticCTA from "@/components/MagneticCTA";
 
 const WORD = "IPHE";
-
-function MagneticCTA({
-  children,
-  variant,
-}: {
-  children: ReactNode;
-  variant: "primary" | "ghost";
-}) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 18, mass: 0.4 });
-  const sy = useSpring(y, { stiffness: 200, damping: 18, mass: 0.4 });
-
-  useEffect(() => {
-    const isTouch = window.matchMedia(
-      "(hover: none), (pointer: coarse)"
-    ).matches;
-    if (isTouch) return;
-
-    const onMove = (e: MouseEvent) => {
-      const el = ref.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = e.clientX - cx;
-      const dy = e.clientY - cy;
-      const dist = Math.hypot(dx, dy);
-      if (dist < 100) {
-        x.set(dx * 0.35);
-        y.set(dy * 0.35);
-      } else {
-        x.set(0);
-        y.set(0);
-      }
-    };
-
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, [x, y]);
-
-  return (
-    <motion.button
-      ref={ref}
-      data-cursor="hover"
-      style={{ x: sx, y: sy }}
-      className={clsx(
-        "rounded-full px-7 py-3.5 font-mono text-xs uppercase tracking-widest transition-colors",
-        variant === "primary"
-          ? "bg-accent text-bg hover:bg-accent/90"
-          : "border border-fg/80 text-fg hover:border-fg"
-      )}
-    >
-      {children}
-    </motion.button>
-  );
-}
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
@@ -93,7 +35,10 @@ export default function Hero() {
     const isTouch = window.matchMedia(
       "(hover: none), (pointer: coarse)"
     ).matches;
-    if (isTouch) return;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (isTouch || prefersReducedMotion) return;
 
     const onMove = (e: MouseEvent) => {
       mx.set(e.clientX / window.innerWidth - 0.5);
@@ -105,6 +50,12 @@ export default function Hero() {
   }, [mx, my]);
 
   useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
       gsap.to(titleRef.current, {
@@ -183,8 +134,12 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.7 }}
         >
-          <MagneticCTA variant="primary">JOIN THE CLAN</MagneticCTA>
-          <MagneticCTA variant="ghost">WORK WITH ME</MagneticCTA>
+          <MagneticCTA variant="primary" href="/clan">
+            JOIN THE CLAN
+          </MagneticCTA>
+          <MagneticCTA variant="ghost" href="/work">
+            WORK WITH ME
+          </MagneticCTA>
         </motion.div>
       </div>
 

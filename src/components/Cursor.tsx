@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 
 type CursorMode = "default" | "hover" | "watch";
 
@@ -11,9 +11,6 @@ export default function Cursor() {
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
-
-  const springX = useSpring(x, { stiffness: 500, damping: 40, mass: 0.5 });
-  const springY = useSpring(y, { stiffness: 500, damping: 40, mass: 0.5 });
 
   useEffect(() => {
     const touch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
@@ -38,7 +35,7 @@ export default function Cursor() {
       else setMode("default");
     };
 
-    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("mousemove", handleMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMove);
   }, [x, y]);
 
@@ -49,15 +46,15 @@ export default function Cursor() {
   return (
     <motion.div
       aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[9999] flex items-center justify-center rounded-full bg-fg text-[10px] font-mono uppercase tracking-wider text-bg mix-blend-difference"
+      className="pointer-events-none fixed left-0 top-0 z-[9999] flex items-center justify-center rounded-full bg-fg text-[10px] font-mono uppercase tracking-wider text-bg mix-blend-difference will-change-transform"
       style={{
-        x: springX,
-        y: springY,
+        x,
+        y,
         translateX: "-50%",
         translateY: "-50%",
       }}
       animate={{ width: size, height: size }}
-      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      transition={{ type: "spring", stiffness: 400, damping: 28 }}
     >
       {mode === "watch" ? "WATCH" : null}
     </motion.div>
