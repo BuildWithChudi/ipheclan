@@ -16,6 +16,7 @@ const stats: Stat[] = [
   { value: 300, suffix: "K+", platform: "Instagram" },
   { value: 50, suffix: "K+", platform: "YouTube" },
   { value: 500, suffix: "K+", platform: "Snapchat" },
+  { value: 700, suffix: "K+", platform: "Facebook" },
 ];
 
 export default function SocialProof() {
@@ -76,7 +77,7 @@ export default function SocialProof() {
         Watched by Millions
       </p>
 
-      <div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-5">
         {stats.map((stat) => (
           <div key={stat.platform} data-stat className="flex flex-col">
             <div className="h-px w-full bg-line" />
@@ -103,7 +104,7 @@ export default function SocialProof() {
           Recognised by <span className="text-accent">Meta</span> as a{" "}
           <span className="text-accent">Creator of Tomorrow</span>
         </p>
-        <p className="mt-3 font-sans text-xs italic text-muted">(2025)</p>
+        <p className="mt-3 font-sans text-xs italic text-muted">(2024)</p>
       </div>
     </section>
   );

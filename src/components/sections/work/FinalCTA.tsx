@@ -6,7 +6,7 @@ import { Check, Copy } from "lucide-react";
 import Magnetic from "@/components/Magnetic";
 
 const HEADLINE = "LET'S WORK";
-const EMAIL = "teamiphe@gmail.com";
+const EMAIL = "contact@ipheclan.com";
 
 export default function FinalCTA() {
   const sectionRef = useRef<HTMLElement>(null);

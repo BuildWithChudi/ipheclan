@@ -77,7 +77,7 @@ const SOCIALS: Social[] = [
   },
 ];
 
-const EMAIL = "teamiphe@gmail.com";
+const EMAIL = "contact@ipheclan.com";
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);

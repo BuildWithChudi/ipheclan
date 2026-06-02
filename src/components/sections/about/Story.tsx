@@ -22,7 +22,7 @@ const ROWS: Row[] = [
     caption: "Portrait · 002",
     paragraphs: [
       "Iphe is a UK-based content creator and entertainer with millions of followers across TikTok, Instagram, YouTube, and Snapchat. His videos blend humour, storytelling, and the everyday energy of someone who refuses to take himself too seriously.",
-      "In 2025 he was named one of Meta's Creators of Tomorrow — a recognition of voices reshaping what online entertainment looks like in the UK.",
+      "In 2024 he was named one of Meta's Creators of Tomorrow — a recognition of voices reshaping what online entertainment looks like in the UK.",
     ],
   },
   {

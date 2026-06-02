@@ -34,9 +34,16 @@ export default function Nav() {
         <Link
           href="/"
           data-cursor="hover"
-          className="font-display text-4xl leading-none tracking-tight text-fg md:text-5xl"
+          aria-label="Iphe — home"
+          className="inline-flex items-center"
         >
-          IPHE
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://ik.imagekit.io/chewdee/greyform/ipheclan/public/content/images/ipheclan-logo.svg?tr=e-bgremove,f-png,h-160"
+            alt="Iphe"
+            className="h-8 w-auto md:h-10"
+            decoding="async"
+          />
         </Link>
         <div className="flex items-center gap-6 md:gap-8">
           {links.map((l) => (

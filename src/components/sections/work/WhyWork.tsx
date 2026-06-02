@@ -70,7 +70,7 @@ export default function WhyWork() {
             &ldquo;Recognised by Meta as a Creator of Tomorrow.&rdquo;
           </p>
           <p className="mt-6 font-mono text-xs uppercase tracking-widest text-muted">
-            Meta · 2025
+            Meta · 2024
           </p>
         </motion.blockquote>
       </div>
