@@ -44,6 +44,7 @@ export default function Loader() {
 
   return (
     <motion.div
+      id="intro-loader"
       initial={{ y: 0 }}
       animate={phase === "shrinking" ? { y: "-100%" } : { y: 0 }}
       transition={{ duration: SHRINK_MS / 1000, ease: EASE }}

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Check, Copy } from "lucide-react";
+import { ArrowUpRight, Check, Copy, Share2 } from "lucide-react";
 import Magnetic from "@/components/Magnetic";
 
 const NAV_LINKS = [
@@ -81,6 +81,7 @@ const EMAIL = "contact@ipheclan.com";
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
+  const [shared, setShared] = useState(false);
 
   useEffect(() => {
     if (!copied) return;
@@ -88,12 +89,37 @@ export default function Footer() {
     return () => clearTimeout(t);
   }, [copied]);
 
+  useEffect(() => {
+    if (!shared) return;
+    const t = setTimeout(() => setShared(false), 1800);
+    return () => clearTimeout(t);
+  }, [shared]);
+
   const copyEmail = async () => {
     try {
       await navigator.clipboard.writeText(EMAIL);
       setCopied(true);
     } catch {
       /* ignore */
+    }
+  };
+
+  const share = async () => {
+    const url = window.location.href;
+    const data = {
+      title: "Iphe",
+      text: "Creator. Entertainer. Building the Iphe Clan.",
+      url,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(data);
+      } else {
+        await navigator.clipboard.writeText(url);
+        setShared(true);
+      }
+    } catch {
+      /* user dismissed the share sheet — ignore */
     }
   };
 
@@ -224,7 +250,27 @@ export default function Footer() {
             </span>
           </button>
 
-          <span className="text-muted">Est. 2025</span>
+          <div className="flex items-center gap-6">
+            <button
+              type="button"
+              onClick={share}
+              data-cursor="hover"
+              aria-label="Share Iphe"
+              className="group inline-flex items-center gap-2 text-fg transition-colors hover:text-accent"
+            >
+              {shared ? (
+                <Check size={13} strokeWidth={1.8} className="text-accent" />
+              ) : (
+                <Share2
+                  size={13}
+                  strokeWidth={1.5}
+                  className="opacity-70 transition-opacity group-hover:opacity-100"
+                />
+              )}
+              <span>{shared ? "Link copied" : "Share"}</span>
+            </button>
+            <span className="text-muted">Est. 2025</span>
+          </div>
         </div>
       </div>
     </footer>

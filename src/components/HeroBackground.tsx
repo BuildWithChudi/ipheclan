@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 import { clVideo, clPoster } from "@/lib/cloudinary";
 
 const HERO_W = 960;
@@ -24,6 +25,14 @@ export default function HeroBackground({ clips }: { clips: HeroClip[] }) {
   const [active, setActive] = useState(0);
   const [armed, setArmed] = useState(false);
   const [loaded, setLoaded] = useState<Set<number>>(() => new Set());
+  const [failed, setFailed] = useState<Set<number>>(() => new Set());
+
+  // Prioritise the first poster (the LCP) at the network layer.
+  const firstPoster = clPoster(clips[0].publicId, clips[0].version, {
+    width: HERO_W,
+    extra: HERO_FX,
+  });
+  ReactDOM.preload(firstPoster, { as: "image", fetchPriority: "high" });
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -69,10 +78,7 @@ export default function HeroBackground({ clips }: { clips: HeroClip[] }) {
     <div className="absolute inset-0 -z-10 overflow-hidden bg-bg">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={clPoster(clips[0].publicId, clips[0].version, {
-          width: HERO_W,
-          extra: HERO_FX,
-        })}
+        src={firstPoster}
         alt=""
         aria-hidden
         fetchPriority="high"
@@ -85,15 +91,16 @@ export default function HeroBackground({ clips }: { clips: HeroClip[] }) {
             videosRef.current[i] = el;
           }}
           className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1200ms] ease-in-out"
-          style={{ opacity: armed && i === active ? 1 : 0 }}
+          style={{ opacity: armed && i === active && !failed.has(i) ? 1 : 0 }}
           src={
-            loaded.has(i)
+            loaded.has(i) && !failed.has(i)
               ? clVideo(clip.publicId, clip.version, {
                   width: HERO_W,
                   extra: HERO_FX,
                 })
               : undefined
           }
+          onError={() => setFailed((s) => new Set(s).add(i))}
           poster={clPoster(clip.publicId, clip.version, {
             width: HERO_W,
             extra: HERO_FX,

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import dynamic from "next/dynamic";
 import SmoothScroll from "@/components/SmoothScroll";
 import Nav from "@/components/Nav";
@@ -9,6 +10,7 @@ import Loader from "@/components/Loader";
 import PageTransition from "@/components/PageTransition";
 import MotionProvider from "@/components/MotionProvider";
 import Credit from "@/components/Credit";
+import Grain from "@/components/Grain";
 import "./globals.css";
 
 const Cursor = dynamic(() => import("@/components/Cursor"), { ssr: false });
@@ -36,12 +38,6 @@ const siteUrl = "https://ipheclan.com";
 const defaultTitle = "Iphe — Creator. Entertainer. Building the Iphe Clan.";
 const description =
   "UK-based content creator with 4M+ TikTok followers. Recognised by Meta as a Creator of Tomorrow. Entertainment, humour, and community.";
-const ogImage = {
-  url: "/og-image.jpg",
-  width: 1200,
-  height: 630,
-  alt: "Iphe — UK creator, entertainer, building the Iphe Clan.",
-};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -80,13 +76,11 @@ export const metadata: Metadata = {
     title: defaultTitle,
     description,
     locale: "en_GB",
-    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
     title: defaultTitle,
     description,
-    images: [ogImage.url],
     creator: "@iphe__a",
   },
   robots: {
@@ -184,6 +178,18 @@ export default function RootLayout({
         {/* Warm the connection to the video CDN before the reels need it */}
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://ik.imagekit.io" crossOrigin="" />
+        {/* No-JS users never get stuck behind the intro cover */}
+        <noscript>
+          <style>{`#intro-loader{display:none!important}`}</style>
+        </noscript>
+        {/* Failsafe: if hydration ever fails, force-remove the cover after 5s */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "setTimeout(function(){var l=document.getElementById('intro-loader');if(l)l.style.display='none'},5000)",
+          }}
+        />
       </head>
       <body className="bg-bg text-fg font-sans antialiased">
         <MotionProvider>
@@ -195,8 +201,10 @@ export default function RootLayout({
             <Footer />
           </SmoothScroll>
         </MotionProvider>
+        <Grain />
         <Credit />
         <Analytics />
+        <SpeedInsights />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}

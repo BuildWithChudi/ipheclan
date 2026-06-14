@@ -10,8 +10,8 @@ import { clVideo, clPoster } from "@/lib/cloudinary";
 // Full-colour centrepiece clip (the grayscale treatment is reserved for the
 // ambient hero backgrounds). Served via Cloudinary like the rest of the video.
 const FEATURED = {
-  publicId: "iphe-plugged-in-dancing-indoors-feeling-music_fk1nn1",
-  version: "v1781424262",
+  publicId: "meet-the-creators-of-tomorrow-reel_by6u2u",
+  version: "v1781430363",
 };
 const VIDEO_SRC = clVideo(FEATURED.publicId, FEATURED.version, { width: 1280 });
 const POSTER_SRC = clPoster(FEATURED.publicId, FEATURED.version, { width: 1280 });
@@ -25,6 +25,11 @@ export default function FeaturedVideo() {
 
   useEffect(() => {
     const el = sectionRef.current;
+    // Respect data-saver: keep the poster, don't pull the reel.
+    const conn = (
+      navigator as Navigator & { connection?: { saveData?: boolean } }
+    ).connection;
+    if (conn?.saveData) return;
     if (!el || typeof IntersectionObserver === "undefined") {
       setShouldLoad(true);
       return;
@@ -134,6 +139,7 @@ export default function FeaturedVideo() {
               className="h-full w-full object-cover md:h-full md:w-auto"
               src={shouldLoad ? VIDEO_SRC : undefined}
               poster={POSTER_SRC}
+              onError={() => setShouldLoad(false)}
               playsInline
               muted
               loop

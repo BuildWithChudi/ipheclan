@@ -32,6 +32,15 @@ function ReelCard({ reel, index }: { reel: Reel; index: number }) {
     ).matches;
     setReduced(prefersReduced);
 
+    // Respect data-saver: keep the poster, never pull the clip.
+    const conn = (
+      navigator as Navigator & { connection?: { saveData?: boolean } }
+    ).connection;
+    if (conn?.saveData) {
+      setReduced(true); // poster-only, tap-to-play
+      return;
+    }
+
     if (typeof IntersectionObserver === "undefined") {
       setSrc(clVideo(reel.publicId, reel.version, { width: 640 }));
       return;
@@ -102,6 +111,7 @@ function ReelCard({ reel, index }: { reel: Reel; index: number }) {
           className="h-full w-full object-cover"
           src={src}
           poster={poster}
+          onError={() => setSrc(undefined)}
           muted
           loop
           playsInline
