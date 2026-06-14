@@ -1,15 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
+import HeroBackground from "@/components/HeroBackground";
+import { HERO_CLIPS } from "@/lib/cloudinary";
 
 export default function AboutHero() {
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-bg px-6 text-center md:px-10">
+      <HeroBackground clips={HERO_CLIPS.about} />
+
       <motion.p
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="font-mono text-xs uppercase tracking-widest text-muted"
+        className="relative font-mono text-xs uppercase tracking-widest text-muted"
       >
         About · 001
       </motion.p>

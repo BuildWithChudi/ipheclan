@@ -11,6 +11,7 @@ type Stat = {
   platform: string;
 };
 
+// last updated: 2026-05-17 — refresh monthly
 const stats: Stat[] = [
   { value: 4, suffix: "M+", platform: "TikTok" },
   { value: 300, suffix: "K+", platform: "Instagram" },

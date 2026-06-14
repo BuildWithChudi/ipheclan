@@ -12,6 +12,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ChevronDown } from "lucide-react";
 import MagneticCTA from "@/components/MagneticCTA";
+import HeroBackground from "@/components/HeroBackground";
+import { HERO_CLIPS } from "@/lib/cloudinary";
 
 const WORD = "IPHE";
 
@@ -79,7 +81,9 @@ export default function Hero() {
       ref={heroRef}
       className="relative flex h-screen items-center justify-center overflow-hidden bg-bg"
     >
-      <div className="flex flex-col items-center px-6 text-center">
+      <HeroBackground clips={HERO_CLIPS.home} />
+
+      <div className="relative flex flex-col items-center px-6 text-center">
         <div style={{ perspective: 1000 }}>
           <motion.h1
             ref={titleRef}

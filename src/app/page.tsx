@@ -3,6 +3,7 @@ import SocialProof from "@/components/sections/SocialProof";
 import RecognitionMarquee from "@/components/sections/RecognitionMarquee";
 import FeaturedVideo from "@/components/sections/FeaturedVideo";
 import Frames from "@/components/sections/Frames";
+import ReelWall from "@/components/sections/ReelWall";
 import Intro from "@/components/sections/Intro";
 import CTA from "@/components/sections/CTA";
 
@@ -14,6 +15,7 @@ export default function Home() {
       <RecognitionMarquee />
       <FeaturedVideo />
       <Frames />
+      <ReelWall />
       <Intro />
       <CTA />
     </main>

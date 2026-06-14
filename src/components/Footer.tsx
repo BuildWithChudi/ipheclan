@@ -109,7 +109,17 @@ export default function Footer() {
             IPHE
           </span>
           <p className="mt-6 font-mono text-[11px] uppercase tracking-widest text-muted">
-            © 2026. Built by Greyform.
+            © 2026. Built by{" "}
+            <a
+              href="https://www.greyform.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="hover"
+              className="text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
+            >
+              Greyform
+            </a>
+            .
           </p>
         </div>
 

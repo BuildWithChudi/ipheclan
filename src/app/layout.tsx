@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import Loader from "@/components/Loader";
 import PageTransition from "@/components/PageTransition";
 import MotionProvider from "@/components/MotionProvider";
+import Credit from "@/components/Credit";
 import "./globals.css";
 
 const Cursor = dynamic(() => import("@/components/Cursor"), { ssr: false });
@@ -112,6 +113,9 @@ export const metadata: Metadata = {
     google: "N5jZVoxmpAM_0UAD7qTsNfTv4Lg3ELoVrw-kEAPIUbE",
   },
   category: "entertainment",
+  other: {
+    designer: "Greyform — https://www.greyform.org",
+  },
 };
 
 export const viewport: Viewport = {
@@ -176,6 +180,11 @@ export default function RootLayout({
       lang="en"
       className={`${anton.variable} ${inter.variable} ${jetbrains.variable}`}
     >
+      <head>
+        {/* Warm the connection to the video CDN before the reels need it */}
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+      </head>
       <body className="bg-bg text-fg font-sans antialiased">
         <MotionProvider>
           <Loader />
@@ -186,6 +195,7 @@ export default function RootLayout({
             <Footer />
           </SmoothScroll>
         </MotionProvider>
+        <Credit />
         <Analytics />
         <script
           type="application/ld+json"

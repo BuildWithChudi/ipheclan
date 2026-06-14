@@ -2,6 +2,8 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import HeroBackground from "@/components/HeroBackground";
+import { HERO_CLIPS } from "@/lib/cloudinary";
 
 const LINES = ["THE IPHE", "CLAN"];
 
@@ -18,11 +20,13 @@ export default function ClanHero() {
           "radial-gradient(ellipse at center, #1A1A1A 0%, #0A0A0A 75%)",
       }}
     >
+      <HeroBackground clips={HERO_CLIPS.clan} />
+
       <motion.p
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="font-mono text-xs uppercase tracking-widest text-muted"
+        className="relative font-mono text-xs uppercase tracking-widest text-muted"
       >
         Community · 001
       </motion.p>
