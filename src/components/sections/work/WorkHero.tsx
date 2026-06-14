@@ -7,7 +7,7 @@ import { HERO_CLIPS } from "@/lib/cloudinary";
 
 export default function WorkHero() {
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-bg px-6 text-center md:px-10">
+    <section className="relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden bg-bg px-6 text-center md:px-10">
       <HeroBackground clips={HERO_CLIPS.work} />
 
       <motion.p

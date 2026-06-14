@@ -5,10 +5,16 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Volume2, VolumeX } from "lucide-react";
-import { ikImage, ikVideo } from "@/lib/imagekit";
+import { clVideo, clPoster } from "@/lib/cloudinary";
 
-const VIDEO_SRC = ikVideo("videos/meta-creators-of-tomorrow-compilation.mp4");
-const POSTER_SRC = ikImage("images/chinatown-thumbnail.png") + "?tr=w-1280,q-70";
+// Full-colour centrepiece clip (the grayscale treatment is reserved for the
+// ambient hero backgrounds). Served via Cloudinary like the rest of the video.
+const FEATURED = {
+  publicId: "iphe-plugged-in-dancing-indoors-feeling-music_fk1nn1",
+  version: "v1781424262",
+};
+const VIDEO_SRC = clVideo(FEATURED.publicId, FEATURED.version, { width: 1280 });
+const POSTER_SRC = clPoster(FEATURED.publicId, FEATURED.version, { width: 1280 });
 
 export default function FeaturedVideo() {
   const sectionRef = useRef<HTMLElement>(null);

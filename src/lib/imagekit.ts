@@ -1,7 +1,7 @@
 import type { ImageLoaderProps } from "next/image";
 
 export const IK_BASE =
-  "https://ik.imagekit.io/chewdee/ipheclan/public/content";
+  "https://ik.imagekit.io/chewdee/greyform/ipheclan/public/content";
 
 export function imagekitLoader({ src, width, quality }: ImageLoaderProps) {
   const cleanSrc = src.replace(/^\/+/, "");

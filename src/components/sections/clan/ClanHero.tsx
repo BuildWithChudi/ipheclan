@@ -14,7 +14,7 @@ export default function ClanHero() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center md:px-10"
+      className="relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center md:px-10"
       style={{
         background:
           "radial-gradient(ellipse at center, #1A1A1A 0%, #0A0A0A 75%)",

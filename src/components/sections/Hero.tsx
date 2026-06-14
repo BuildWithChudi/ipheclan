@@ -79,7 +79,7 @@ export default function Hero() {
   return (
     <section
       ref={heroRef}
-      className="relative flex h-screen items-center justify-center overflow-hidden bg-bg"
+      className="relative isolate flex h-screen items-center justify-center overflow-hidden bg-bg"
     >
       <HeroBackground clips={HERO_CLIPS.home} />
 

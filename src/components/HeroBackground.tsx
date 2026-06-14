@@ -107,9 +107,10 @@ export default function HeroBackground({ clips }: { clips: HeroClip[] }) {
           aria-hidden
         />
       ))}
-      {/* Scrims: keep the wordmark legible and the footage from competing */}
-      <div className="absolute inset-0 bg-bg/60" />
-      <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-bg/70" />
+      {/* Scrims: enough to keep the wordmark legible, light enough that the
+          footage clearly reads. Bottom is darker for the CTA / scroll cue. */}
+      <div className="absolute inset-0 bg-black/35" />
+      <div className="absolute inset-0 bg-gradient-to-t from-bg/85 via-transparent to-bg/25" />
     </div>
   );
 }
