@@ -9,6 +9,10 @@ import { clVideo, clPoster } from "@/lib/cloudinary";
 
 // Full-colour centrepiece clip (the grayscale treatment is reserved for the
 // ambient hero backgrounds). Served via Cloudinary like the rest of the video.
+// Register the plugin once at module scope — not on every (re)mount, which is
+// what lets stale ScrollTriggers leak and crash a later refresh.
+gsap.registerPlugin(ScrollTrigger);
+
 const FEATURED = {
   publicId: "meet-the-creators-of-tomorrow-reel_by6u2u",
   version: "v1781430363",
@@ -56,10 +60,9 @@ export default function FeaturedVideo() {
         "(prefers-reduced-motion: reduce)"
       ).matches;
       if (isTouch || prefersReducedMotion) return;
+      if (!frameRef.current || !sectionRef.current) return;
 
-      gsap.registerPlugin(ScrollTrigger);
-
-      gsap.fromTo(
+      const tween = gsap.fromTo(
         frameRef.current,
         { width: "60%", borderRadius: 24 },
         {
@@ -74,6 +77,13 @@ export default function FeaturedVideo() {
           },
         }
       );
+
+      // Kill this instance's trigger on unmount so it can't linger and break
+      // a future refresh when the page is revisited.
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+      };
     },
     { scope: sectionRef }
   );

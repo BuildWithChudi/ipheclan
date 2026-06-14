@@ -10,6 +10,8 @@ import { useGSAP } from "@gsap/react";
 import { ArrowUpRight } from "lucide-react";
 import { imagekitLoader } from "@/lib/imagekit";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const HEADING_WORDS = ["Who", "is", "Iphe?"];
 
 const PARAGRAPHS = [
@@ -31,9 +33,9 @@ export default function Intro() {
       ) {
         return;
       }
-      gsap.registerPlugin(ScrollTrigger);
+      if (!imageRef.current || !sectionRef.current) return;
 
-      gsap.fromTo(
+      const tween = gsap.fromTo(
         imageRef.current,
         { y: 0 },
         {
@@ -47,6 +49,11 @@ export default function Intro() {
           },
         }
       );
+
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+      };
     },
     { scope: sectionRef }
   );

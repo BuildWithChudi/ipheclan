@@ -15,6 +15,8 @@ import MagneticCTA from "@/components/MagneticCTA";
 import HeroBackground from "@/components/HeroBackground";
 import { HERO_CLIPS } from "@/lib/cloudinary";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const WORD = "IPHE";
 
 export default function Hero() {
@@ -60,8 +62,8 @@ export default function Hero() {
       ) {
         return;
       }
-      gsap.registerPlugin(ScrollTrigger);
-      gsap.to(titleRef.current, {
+      if (!titleRef.current || !heroRef.current) return;
+      const tween = gsap.to(titleRef.current, {
         scale: 0.8,
         opacity: 0,
         ease: "none",
@@ -72,6 +74,10 @@ export default function Hero() {
           scrub: true,
         },
       });
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+      };
     },
     { scope: heroRef }
   );
