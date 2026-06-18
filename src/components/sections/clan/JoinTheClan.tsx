@@ -16,7 +16,7 @@ const PLATFORMS: Platform[] = [
   {
     label: "Discord",
     cta: "Join the Discord",
-    href: "https://discord.gg/WDnXWpt6B",
+    href: "https://discord.gg/kU7Cyngexc",
     slug: "discord",
   },
   {

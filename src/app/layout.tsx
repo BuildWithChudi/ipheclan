@@ -147,7 +147,7 @@ const personJsonLd = {
     "https://x.com/iphe__a",
     "https://www.threads.com/@iphe._a",
     "https://whatsapp.com/channel/0029VaiZ0ZDEgGfKjv85gf08",
-    "https://discord.gg/WDnXWpt6B",
+    "https://discord.gg/kU7Cyngexc",
   ],
 };
 

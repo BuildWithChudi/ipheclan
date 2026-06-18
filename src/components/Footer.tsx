@@ -71,7 +71,7 @@ const SOCIALS: Social[] = [
   },
   {
     label: "Discord",
-    href: "https://discord.gg/WDnXWpt6B",
+    href: "https://discord.gg/kU7Cyngexc",
     slug: "discord",
     colorExt: "png",
   },
